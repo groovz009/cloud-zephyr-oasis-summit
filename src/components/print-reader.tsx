@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export function PrintReader({
   src,
@@ -15,26 +15,28 @@ export function PrintReader({
   const [page, setPage] = useState(1);
   const frame = useRef<HTMLIFrameElement>(null);
 
+  const showPage = useCallback((n: number) => {
+    const doc = frame.current?.contentDocument;
+    if (!doc) return;
+    doc.querySelectorAll(".page").forEach((el) => {
+      el.classList.toggle("is-active", el.id === `p${n}`);
+    });
+    doc.documentElement.scrollTop = 0;
+    doc.body.scrollTop = 0;
+  }, []);
+
   useEffect(() => {
     const el = frame.current;
     if (!el) return;
-    const go = () => {
-      try {
-        const doc = el.contentDocument;
-        const target = doc?.getElementById(`p${page}`);
-        target?.scrollIntoView({ behavior: "instant", block: "start" });
-      } catch {
-        /* ignore */
-      }
-    };
-    el.addEventListener("load", go);
-    go();
-    return () => el.removeEventListener("load", go);
-  }, [page, src]);
+    const onLoad = () => showPage(page);
+    el.addEventListener("load", onLoad);
+    showPage(page);
+    return () => el.removeEventListener("load", onLoad);
+  }, [page, showPage]);
 
   return (
     <div className="flex min-h-dvh flex-col bg-[#e8ddd2]">
-      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-[#d9cbbd] bg-ivory px-4 py-3">
+      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-rule bg-ivory px-4 py-3">
         <Link to="/" className="text-[12px] tracking-[0.16em] text-red uppercase">
           Library
         </Link>
@@ -60,7 +62,7 @@ export function PrintReader({
               max={pages}
               value={page}
               onChange={(e) => setPage(Math.min(pages, Math.max(1, Number(e.target.value) || 1)))}
-              className="w-14 border border-[#d9cbbd] bg-white text-center"
+              className="w-14 border border-rule bg-white text-center"
               aria-label="Page number"
             />
             <span> / {pages}</span>
@@ -75,15 +77,14 @@ export function PrintReader({
           </button>
         </div>
       </header>
-      <div className="flex flex-1 justify-center overflow-auto p-4">
-        <div className="h-[min(88dvh,1100px)] w-full max-w-[820px] overflow-hidden bg-white shadow-xl">
-          <iframe
-            ref={frame}
-            title={title}
-            src={`${src}#p${page}`}
-            className="h-full w-full border-0 bg-ivory"
-          />
-        </div>
+      <div className="flex min-h-0 flex-1 justify-center overflow-auto p-3">
+        <iframe
+          ref={frame}
+          title={title}
+          src={src}
+          className="min-h-[70dvh] w-full max-w-[780px] border-0 bg-ivory"
+          style={{ height: "calc(100dvh - 5.75rem)" }}
+        />
       </div>
     </div>
   );

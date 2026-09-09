@@ -20,14 +20,14 @@ function footer(n) {
   </div>`;
 }
 
-function page(n, inner, { photo, photoPos } = {}) {
+function page(n, inner, { photo, bandClass } = {}) {
   const photoHtml = photo
-    ? `<div class="photo-band"><img src="${img}/${photo.replace('.jpg','-band.jpg')}" alt=""></div>`
+    ? `<div class="photo-band${bandClass ? ` ${bandClass}` : ""}"><img src="${img}/${photo.replace(".jpg", "-band.jpg")}" alt=""></div>`
     : "";
   const cls = photo ? "inner with-photo" : "inner";
   return `<section class="page" id="p${n}">
+  ${photoHtml}
   <div class="${cls}">
-    ${photoHtml}
     ${inner}
   </div>
   ${footer(n)}
@@ -36,7 +36,7 @@ function page(n, inner, { photo, photoPos } = {}) {
 
 const pages = [];
 
-pages.push(`<section class="page cover-page" id="p1">
+pages.push(`<section class="page cover-page is-active" id="p1">
   <img src="${img}/cover.png" alt="The Marriage Reset">
 </section>`);
 
@@ -135,7 +135,7 @@ pages.push(
     <p class="small">than a partnership.</p>
     <p class="solo">If you are starting this alone: answer both questions for yourself. Noticing is never something you can get wrong.</p>
     <p class="prayer">If it helps: a short prayer of thanks for even this small first step is a good way to close today.</p>`,
-    { photo: "week-1.jpg", photoPos: "18%" }
+    { photo: "week-1.jpg", bandClass: "faces-left" }
   )
 );
 
