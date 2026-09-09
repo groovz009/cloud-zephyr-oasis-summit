@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #f9f4ee;
+  --color-red: #77132c;
+  --color-accent: #fd1915;
+  --color-gold: #c6a664;
+  --color-ink: #1f1a18;
+  --color-muted: #6b6158;
+  --color-rule: #e4d8cc;
+  --font-serif: "Playfair Display", Georgia, serif;
+}
+
+@layer base {
+  html { -webkit-font-smoothing: antialiased; }
+  body {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+  }
+  button:not(:disabled), [role="button"]:not(:disabled) { cursor: pointer; }
+}

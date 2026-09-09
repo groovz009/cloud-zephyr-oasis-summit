@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "The Marriage Reset",
+      "hasCanvas": false,
+      "bodyTextLen": 1034,
+      "bodyTextHash": "10ae97e66bcdf2f1dc46dc4eb25b411209f61812867ed3ce92f5cc9405932500",
+      "bodyTextPrefix": "GRACE AND HARMONY PRESS Download the book A 30-DAY GUIDED PATH t",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "The Marriage Reset",
+      "hasCanvas": false,
+      "bodyTextLen": 1034,
+      "bodyTextHash": "10ae97e66bcdf2f1dc46dc4eb25b411209f61812867ed3ce92f5cc9405932500",
+      "bodyTextPrefix": "GRACE AND HARMONY PRESS Download the book A 30-DAY GUIDED PATH t",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}
