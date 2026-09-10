@@ -1,0 +1,1 @@
+import{s as e}from"./link-D_Rt3DJK.js";import{t}from"./print-reader-Dehudi13.js";var n=e();function r(){return(0,n.jsx)(t,{src:`/print/workbook.html`,title:`The Marriage Reset`,pages:30,pdf:`/downloads/the-marriage-reset.pdf`})}export{r as component};

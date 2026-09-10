@@ -10,12 +10,38 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CheckinsRouteImport } from './routes/checkins'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as PrayersRouteImport } from './routes/prayers'
 import { Route as ReadRouteImport } from './routes/read'
+import { Route as DayDayNumberRouteImport } from './routes/day/$dayNumber'
 import { Route as ReadIdRouteImport } from './routes/read.$id'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckinsRoute = CheckinsRouteImport.update({
+  id: '/checkins',
+  path: '/checkins',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrayersRoute = PrayersRouteImport.update({
+  id: '/prayers',
+  path: '/prayers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReadRoute = ReadRouteImport.update({
@@ -23,39 +49,101 @@ const ReadRoute = ReadRouteImport.update({
   path: '/read',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DayDayNumberRoute = DayDayNumberRouteImport.update({
+  id: '/day/$dayNumber',
+  path: '/day/$dayNumber',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReadIdRoute = ReadIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => ReadRoute,
 } as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/checkins': typeof CheckinsRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/prayers': typeof PrayersRoute
   '/read': typeof ReadRouteWithChildren
+  '/day/$dayNumber': typeof DayDayNumberRoute
   '/read/$id': typeof ReadIdRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/checkins': typeof CheckinsRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/prayers': typeof PrayersRoute
   '/read': typeof ReadRouteWithChildren
+  '/day/$dayNumber': typeof DayDayNumberRoute
   '/read/$id': typeof ReadIdRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/checkins': typeof CheckinsRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/prayers': typeof PrayersRoute
   '/read': typeof ReadRouteWithChildren
+  '/day/$dayNumber': typeof DayDayNumberRoute
   '/read/$id': typeof ReadIdRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/read' | '/read/$id'
+  fullPaths:
+    | '/'
+    | '/checkins'
+    | '/dashboard'
+    | '/login'
+    | '/prayers'
+    | '/read'
+    | '/day/$dayNumber'
+    | '/read/$id'
+    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/read' | '/read/$id'
-  id: '__root__' | '/' | '/read' | '/read/$id'
+  to:
+    | '/'
+    | '/checkins'
+    | '/dashboard'
+    | '/login'
+    | '/prayers'
+    | '/read'
+    | '/day/$dayNumber'
+    | '/read/$id'
+    | '/api/auth/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/checkins'
+    | '/dashboard'
+    | '/login'
+    | '/prayers'
+    | '/read'
+    | '/day/$dayNumber'
+    | '/read/$id'
+    | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CheckinsRoute: typeof CheckinsRoute
+  DashboardRoute: typeof DashboardRoute
+  LoginRoute: typeof LoginRoute
+  PrayersRoute: typeof PrayersRoute
   ReadRoute: typeof ReadRouteWithChildren
+  DayDayNumberRoute: typeof DayDayNumberRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -67,11 +155,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkins': {
+      id: '/checkins'
+      path: '/checkins'
+      fullPath: '/checkins'
+      preLoaderRoute: typeof CheckinsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prayers': {
+      id: '/prayers'
+      path: '/prayers'
+      fullPath: '/prayers'
+      preLoaderRoute: typeof PrayersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/read': {
       id: '/read'
       path: '/read'
       fullPath: '/read'
       preLoaderRoute: typeof ReadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/day/$dayNumber': {
+      id: '/day/$dayNumber'
+      path: '/day/$dayNumber'
+      fullPath: '/day/$dayNumber'
+      preLoaderRoute: typeof DayDayNumberRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/read/$id': {
@@ -80,6 +203,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/read/$id'
       preLoaderRoute: typeof ReadIdRouteImport
       parentRoute: typeof ReadRoute
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -96,7 +226,13 @@ const ReadRouteWithChildren = ReadRoute._addFileChildren(ReadRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CheckinsRoute: CheckinsRoute,
+  DashboardRoute: DashboardRoute,
+  LoginRoute: LoginRoute,
+  PrayersRoute: PrayersRoute,
   ReadRoute: ReadRouteWithChildren,
+  DayDayNumberRoute: DayDayNumberRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

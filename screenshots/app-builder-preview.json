@@ -13,7 +13,7 @@
       "horizontalOverflow": false,
       "consoleErrors": [],
       "pageErrors": [],
-      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+      "screenshot": "C:\\workspace\\screenshots\\app-builder-preview.png"
     },
     "mobile": {
       "width": 390,
@@ -27,10 +27,10 @@
       "horizontalOverflow": false,
       "consoleErrors": [],
       "pageErrors": [],
-      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+      "screenshot": "C:\\workspace\\screenshots\\app-builder-preview-mobile.png"
     }
   },
   "brandWarnings": [],
   "authWarnings": [],
-  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+  "verdictFile": "C:\\workspace\\screenshots\\app-builder-preview.json"
 }

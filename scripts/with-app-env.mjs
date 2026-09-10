@@ -111,7 +111,11 @@ function main(argv) {
     process.exit(2);
   }
   const env = mergeAppEnv(readAppEnv(projectRoot()), process.env);
-  const child = spawn(command, args, { stdio: "inherit", env });
+  // Windows ships npm binaries as .cmd shims that Node's spawn cannot launch
+  // without a shell; on POSIX platforms a shell changes quoting semantics, so
+  // keep the original (shell-less) behaviour there.
+  const shell = process.platform === "win32";
+  const child = spawn(command, args, { stdio: "inherit", env, shell });
   // The dev server is long-running and is stopped by signalling this wrapper.
   for (const signal of ["SIGINT", "SIGTERM", "SIGHUP"]) {
     process.on(signal, () => child.kill(signal));

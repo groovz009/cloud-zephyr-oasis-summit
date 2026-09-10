@@ -1,4 +1,4 @@
-import { readdirSync } from "node:fs";
+import { existsSync, copyFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import type { Plugin } from "vite";
 import { defineConfig } from "vite";
@@ -142,6 +142,40 @@ function authPopupPlugin(): Plugin {
   };
 }
 
+/**
+ * PGLite bundles its Postgres runtime into `dist/pglite.data`, which it loads
+ * by resolving a path RELATIVE to the compiled module (`import.meta.url`).
+ * Dev server works (the file sits next to node_modules/@electric-sql/pglite),
+ * but the nitro/vercel build hoists the lib into
+ * `.vercel/output/functions/__server.func/_libs/` with no sibling engine, so a
+ * build that runs the PGLite fallback (no `DATABASE_URL`) dies before serving.
+ * Copy the engine next to the bundled lib when the build emits it.
+ */
+function pgliteDataPlugin(): Plugin {
+  return {
+    name: "app-builder:pglite-data",
+    apply: "build",
+    async closeBundle() {
+      const root = process.cwd();
+      const srcDir = join(root, "node_modules/@electric-sql/pglite/dist");
+      const libDir = join(
+        root,
+        ".vercel/output/functions/__server.func/_libs",
+      );
+      if (!existsSync(srcDir) || !existsSync(libDir)) return;
+      // PGLite resolves its Postgres runtime files relative to the compiled
+      // module; the bundler hoists the lib but no sibling engine files.
+      for (const name of ["pglite.data", "pglite.wasm", "initdb.wasm"]) {
+        const src = join(srcDir, name);
+        const dest = join(libDir, name);
+        if (!existsSync(src) || existsSync(dest)) continue;
+        copyFileSync(src, dest);
+        console.log("[app-builder] copied", dest);
+      }
+    },
+  };
+}
+
 // `0.0.0.0:8080` is the live-preview contract — don't change host/port.
 // The dev server starts once `src/router.tsx` and `src/routes/` exist — see
 // AGENTS.md § "First scaffold".
@@ -159,6 +193,7 @@ export default defineConfig(({ command, isPreview }) => ({
   resolve: { tsconfigPaths: true },
   plugins: [
     pgliteBootstrapPlugin(),
+    pgliteDataPlugin(),
     // Before tanstackStart so /auth/popup never falls through to the SPA.
     authPopupPlugin(),
     // Dev-only /__app-env, read by scripts/check-auth-invariant.mjs.

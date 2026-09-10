@@ -34,7 +34,14 @@ export function checkedUrl(url) {
 export function checkedOutputPath(target, allowedDirs, label = "screenshot") {
   // Resolve first so `..` cannot slip past the prefix check.
   const abs = resolve(target);
-  const allowed = allowedDirs.some((dir) => abs.startsWith(dir.endsWith(sep) ? dir : dir + sep));
+  // Node on Windows resolves "/workspace/…" to "C:\workspace\…"; compare on a
+  // normalized separator space so POSIX-rooted allowed dirs still match.
+  const norm = (p) => p.replaceAll("\\", "/").replace(/^[A-Za-z]:/, "");
+  const normalized = norm(abs);
+  const allowed = allowedDirs.some((dir) => {
+    const d = norm(dir);
+    return normalized.startsWith(d.endsWith("/") ? d : d + "/");
+  });
   if (!allowed) {
     fail(`${label} path must be under ${allowedDirs.join(" or ")}, got ${abs}`);
   }
